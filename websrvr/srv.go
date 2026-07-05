@@ -7,9 +7,13 @@ import (
     "path/filepath"
 
     "github.com/StanislavDem/go-final-project/tests"
+	"github.com/StanislavDem/go-final-project/pkg/api"
 )
 
 func StartServer() {
+	// регистрируем API-обработчики
+    api.Init()
+	
     // Директория для фронтенда
     webDir := filepath.Join("web")
 

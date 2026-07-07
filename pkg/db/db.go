@@ -3,7 +3,7 @@ package db
 import (
     "database/sql"
     "os"
-    _ "modernc.org/sqlite"
+    _ "modernc.org/sqlite" // драйвер
 )
 
 var DB *sql.DB // глобальная переменная для хранения подключения к базе данных
@@ -31,12 +31,12 @@ func Init(dbFile string) error {
         return err
     }
 
-    if install { // если нет базы даннных, то создаем таблицу и индекс
+    if install { // если нет таблицы и индекса, то создаем их
         _, err = DB.Exec(schema)
         if err != nil {
             return err
         }
     }
 
-    return nil // если база существует, пропускаем шаг выше
+    return nil // если нет таблица и индекс есть, пропускаем шаг выше
 }

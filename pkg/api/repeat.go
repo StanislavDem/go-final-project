@@ -5,7 +5,7 @@ import (
     "net/http"
     "time"
 
-    "github.com/StanislavDem/go-final-project/pkg/db" // если NextDate лежит в db
+    "github.com/StanislavDem/go-final-project/pkg/db"
 )
 
 // nextDayHandler обрабатывает запросы вида:

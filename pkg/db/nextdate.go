@@ -16,7 +16,7 @@ func isValidMonthAndAfter(date time.Time, validMonths map[int]bool, now time.Tim
     return (len(validMonths) == 0 || validMonths[month]) && date.After(now)
 }
 
-// NextDate - вычисляет ближайшую дату задачи по правилу repeat.
+// NextDate public func. - вычисляет ближайшую дату задачи по правилу repeat.
 // now      - текущее время, от которого ищем следующую дату
 // dstart   - исходная дата задачи в формате DateFormat
 // repeat   - строка с правилом повторения ("d 7", "y", "w 1,3", "m -1,2" и т.п.)

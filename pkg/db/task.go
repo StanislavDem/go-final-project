@@ -14,7 +14,7 @@ type Task struct {
     Repeat  string `json:"repeat"`
 }
 
-// Механизм добавления задачи в таблицу scheduler
+// Функция добавления задачи в таблицу scheduler
 func AddTask(task *Task) (int64, error) {
     query := `INSERT INTO scheduler(date, title, comment, repeat) VALUES (?, ?, ?, ?)`
     res, err := DB.Exec(query, task.Date, task.Title, task.Comment, task.Repeat)
@@ -23,7 +23,7 @@ func AddTask(task *Task) (int64, error) {
     }
     return res.LastInsertId()
 }
-// Механизм вывода задач из таблицы scheduler и поиска
+// Функция вывода задач из таблицы scheduler и поиска
 func Tasks(limit int, search string) ([]*Task, error) {
     var rows *sql.Rows
     var err error  
@@ -80,6 +80,38 @@ func GetTask(id string) (*Task, error) {
 func UpdateTask(task *Task) error {
     query := `UPDATE scheduler SET date = ?, title = ?, comment = ?, repeat = ? WHERE id = ?`
     res, err := DB.Exec(query, task.Date, task.Title, task.Comment, task.Repeat, task.ID)
+    if err != nil {
+        return err
+    }
+    count, err := res.RowsAffected()
+    if err != nil {
+        return err
+    }
+    if count == 0 {
+        return fmt.Errorf("Задача не найдена")
+    }
+    return nil
+}
+
+// Функция удаления задачи
+func DeleteTask(id string) error {
+    res, err := DB.Exec("DELETE FROM scheduler WHERE id = ?", id)
+    if err != nil {
+        return err
+    }
+    count, err := res.RowsAffected()
+    if err != nil {
+        return err
+    }
+    if count == 0 {
+        return fmt.Errorf("Задача не найдена")
+    }
+    return nil
+}
+
+// Функция обновления только даты задачи
+func UpdateDate(next string, id string) error {
+    res, err := DB.Exec("UPDATE scheduler SET date = ? WHERE id = ?", next, id) // SQL‑запрос внутри функции UpdateDate
     if err != nil {
         return err
     }

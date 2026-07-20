@@ -1,29 +1,42 @@
-package main
+package websrvr
 
 import (
-	"fmt"
+    "fmt"
     "log"
     "net/http"
+    "os"
     "path/filepath"
 
+    "github.com/StanislavDem/go-final-project/pkg/api"
     "github.com/StanislavDem/go-final-project/tests"
 )
 
-func main() {
-    // Директория для фронтенда
-    webDir := filepath.Join("..", "web")
+func StartServer() {
+	// регистрируем API-обработчики
+    api.Init()
+	
+	// Определяем корневую папку относительно исполняемого файла
+    exePath, err := os.Executable()
+    if err != nil {
+        log.Fatal(err)
+    }
+    rootPath := filepath.Dir(exePath)
+	
+    // Пути к фронтенду
+    webDir := filepath.Join(rootPath, "web")
 
-    // Возвращаем index.html при запросе "/"
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        if r.URL.Path == "/" {
-            http.ServeFile(w, r, filepath.Join(webDir, "index.html"))
-            return
-        }
-        // Для остальных файлов (css, js, изображения)
-        http.ServeFile(w, r, filepath.Join(webDir, r.URL.Path))
-    })
+	// Если такой папки нет — fallback на относительный путь
+	if _, err := os.Stat(webDir); os.IsNotExist(err) {
+		webDir = "web"
+	}
 
-    addr := ":" + fmt.Sprintf("%d", tests.Port) // порт берём из settings.go
+    // FileServer возвращает index.html и вложенные файлы
+    fs := http.FileServer(http.Dir(webDir))
+
+    // StripPrefix для того чтобы "/" вело прямо в webDir
+    http.Handle("/", http.StripPrefix("/", fs))
+
+    addr := fmt.Sprintf(":%d", tests.Port) // порт берём из settings.go
     log.Printf("Server started on %s\n", addr)
     if err := http.ListenAndServe(addr, nil); err != nil {
         log.Fatal(err)

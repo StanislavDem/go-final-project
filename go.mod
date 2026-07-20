@@ -1,9 +1,9 @@
-module go-final-project
+module github.com/StanislavDem/go-final-project
 
 go 1.26.2
 
 require (
-	github.com/StanislavDem/go-final-project v0.0.0-20260629144012-28e07bda2b4e
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/stretchr/testify v1.11.1
 	modernc.org/sqlite v1.53.0

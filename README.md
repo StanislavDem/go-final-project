@@ -25,11 +25,11 @@
 5. Реализована аутентификация и docker-образ.
 
 ##### Параметры в tests/settings.go
-Port = 7540
-DBFile = "../dataBase/scheduler.db"
-FullNextDate = true
-Search = true
-Token = `azimut`
+- Port = 7540
+- DBFile = "../dataBase/scheduler.db"
+- FullNextDate = true
+- Search = true
+- Token = `azimut`
 
 ###### Запуск локального сервера
 **bash**
@@ -40,7 +40,8 @@ Token = `azimut`
 ####### Инструкция по запуску приложения из репозитория DockerHub
 
 1. Ссылка на репозиторий: https://hub.docker.com/r/fars1r/go-task-scheduler
-2. Команда для загрузки образа: docker pull fars1r/go-task-scheduler:v1
+2. Команда для загрузки образа:
+- `docker pull fars1r/go-task-scheduler:v1`
 3. Запуск контейнера и монтирование DB через PowerShell: 
-docker run -d --name go-task-scheduler -p 7540:7540 -v ${PWD}/dataBase/scheduler.db:/dataBase/scheduler.db fars1r/go-task-scheduler:v1
+- `docker run -d --name go-task-scheduler -p 7540:7540 -v ${PWD}/dataBase/scheduler.db:/dataBase/scheduler.db fars1r/go-task-scheduler:v1`
 4. Ссылка на стартовую страницу: http://localhost:7540/login.html

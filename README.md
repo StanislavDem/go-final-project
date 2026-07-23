@@ -45,3 +45,4 @@
 3. Запуск контейнера и монтирование DB через PowerShell: 
 - `docker run -d --name go-task-scheduler -p 7540:7540 -v ${PWD}/dataBase/scheduler.db:/dataBase/scheduler.db fars1r/go-task-scheduler:v1`
 4. Ссылка на стартовую страницу: http://localhost:7540/login.html
+New PR for review
